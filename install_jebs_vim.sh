@@ -1,11 +1,10 @@
 cd ~
-hg clone http://www.bitbucket.org/jebberjeb/scripts
 hg clone https://vim.googlecode.com/hg/ vim
 sudo yum -y install python-devel
 sudo yum -y install ruby-devel
 cd vim
 make distclean
-./configure --enable-rubyinterp --enable-pythoninterp --enable-multibyte
+./configure --enable-rubyinterp --enable-pythoninterp --enable-multibyte --enable-conceal --enable-clipboard
 make
 sudo make install
 cd ~
@@ -16,4 +15,3 @@ ruby extconf.rb
 make clean
 make
 sudo make install
-
