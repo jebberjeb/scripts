@@ -45,4 +45,7 @@ let g:CommandTMaxFiles=50000
 let g:CommandTMaxDepth=20
 
 " Paredit
-let g:paredit_mode = 0
+let g:paredit_mode = 1
+
+" Default colorscheme
+:colorscheme vividchalk
