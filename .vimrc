@@ -7,7 +7,6 @@ syntax on
 filetype plugin indent on
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
 set nu
-set cc=80
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -19,17 +18,41 @@ set list
 " General custom mappings
 let mapleader = ","
 inoremap jk <Esc>
-nnoremap <leader>b :buffers<CR>
+"" .vimrc 
 nnoremap <leader>dot :vsplit ~/.vimrc<cr>
 nnoremap <leader>sdot :source ~/.vimrc<cr>
+"" move lines
 nnoremap <leader>lu :normal ddkkp<cr>
 nnoremap <leader>ld :normal ddp<cr>
+"" windows - not sure how wise this is as it may cause me to lose
+""           dexterity w/ standard vim bindings.
+nnoremap <leader>wq :q<cr>
+nnoremap <leader>wh <c-w>h<cr>
+nnoremap <leader>wj <c-w>j<cr>
+nnoremap <leader>wk <c-w>k<cr>
+nnoremap <leader>wl <c-w>l<cr>
 
 " Relearn a few things
 inoremap <esc> <nop>
 inoremap <c-[> <nop>
 
 " Incubator (From LVstHW)
+
+"" Functions (and mappings) which prepare the window for copy
+"" using the mouse, from a terminal. Removes whitespace chars,
+"" color column, and line numbers.
+function! ReadyToCopy()
+    :set cc=0
+    :set nonumber
+    :set nolist
+endfunction
+function! NotReadyToCopy()
+    :set cc=80
+    :set number
+    :set list
+endfunction
+nnoremap <leader>copy :call ReadyToCopy()<cr>
+nnoremap <leader>nocopy :call NotReadyToCopy()<cr>
 
 " Tag stuff (ctags, taglist.vim)
 let Tlist_WinWidth=40
@@ -58,6 +81,5 @@ let g:paredit_mode = 1
 
 " Default colorscheme
 colorscheme vividchalk
-" Set the color column, after applying the
-" color scheme.
+set cc=80
 highlight ColorColumn ctermbg=lightgrey guibg=lightgrey
