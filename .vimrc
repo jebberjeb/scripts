@@ -24,13 +24,26 @@ nnoremap <leader>sdot :source ~/.vimrc<cr>
 "" move lines
 nnoremap <leader>lu :normal ddkkp<cr>
 nnoremap <leader>ld :normal ddp<cr>
-"" windows - not sure how wise this is as it may cause me to lose
-""           dexterity w/ standard vim bindings.
+
+"" windows - not sure how wise this is as
+"" it may cause me to lose dexterity w/
+"" standard vim bindings.
+
+""" moving between windows
 nnoremap <leader>wq :q<cr>
 nnoremap <leader>wh <c-w>h<cr>
 nnoremap <leader>wj <c-w>j<cr>
 nnoremap <leader>wk <c-w>k<cr>
 nnoremap <leader>wl <c-w>l<cr>
+""" sizing windows -- keep it fast,
+""" repeated keystrokes
+nnoremap <left> :vertical res -1<cr>
+nnoremap <right> :vertical res +1<cr>
+nnoremap <down> :res -1<cr>
+nnoremap <up> :res +1<cr>
+""" splitting windows
+nnoremap <leader>wvs :vsplit<cr>
+nnoremap <leader>whs :split<cr>
 
 " Relearn a few things
 inoremap <esc> <nop>
@@ -38,9 +51,9 @@ inoremap <c-[> <nop>
 
 " Incubator (From LVstHW)
 
-"" Functions (and mappings) which prepare the window for copy
-"" using the mouse, from a terminal. Removes whitespace chars,
-"" color column, and line numbers.
+"" Functions (and mappings) which prepare
+"" the window for copy color column, and 
+"" line numbers.
 function! ReadyToCopy()
     :set cc=0
     :set nonumber
@@ -65,7 +78,8 @@ map gtl :!/usr/bin/ctags --langmap=lisp:+.clj -R --c++-kinds=+p --fields=+iaS --
 " Nerd Tree
 map nt :NERDTree<cr>
 
-" Stuff to avoid C-w, which doesn't play nice w/ chrome terminal
+" Stuff to avoid C-w, which doesn't play
+" nice w/ chrome terminal
 map <C-h> <C-w>h<CR>
 map <C-l> <C-w>l<CR>
 
