@@ -42,8 +42,8 @@ nnoremap <right> :vertical res +1<cr>
 nnoremap <down> :res -1<cr>
 nnoremap <up> :res +1<cr>
 """ splitting windows
-nnoremap <leader>wvs :vsplit<cr>
-nnoremap <leader>whs :split<cr>
+nnoremap <leader>wsv :vsplit<cr>
+nnoremap <leader>wsh :split<cr>
 
 " Relearn a few things
 inoremap <esc> <nop>
