@@ -1,4 +1,4 @@
-" This is standard pathogen and vim setup
+"  is standard pathogen and vim setup
 set nocompatible
 call pathogen#infect() 
 
@@ -18,8 +18,10 @@ set list
 " General custom mappings
 let mapleader = ","
 inoremap jk <Esc>
-"" .vimrc 
-nnoremap <leader>dot :vsplit ~/.vimrc<cr>
+"" In order to add <cr> to the mapped key,
+"" we have to turn the sequence into a
+"" string, and stringify the <cr>.
+nnoremap <leader>dot :vsplit ~/.vimrc<cr>:execute ":nnoremap <buffer> q :w\<lt>cr>:bd\<lt>cr>"<cr>
 nnoremap <leader>sdot :source ~/.vimrc<cr>
 "" move lines
 nnoremap <leader>lu :normal ddkkp<cr>
@@ -70,21 +72,21 @@ nnoremap <leader>nocopy :call NotReadyToCopy()<cr>
 " Tag stuff (ctags, taglist.vim)
 let Tlist_WinWidth=40
 let tlist_clojure_settings='lisp;f:function'
-map tl :TlistToggle<cr>
-map tn :tn<cr>
-map tp :tp<cr>
-map gtl :!/usr/bin/ctags --langmap=lisp:+.clj -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+nnoremap tl :TlistToggle<cr>
+nnoremap tn :tn<cr>
+nnoremap tp :tp<cr>
+nnoremap gtl :!/usr/bin/ctags --langmap=lisp:+.clj -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " Nerd Tree
-map nt :NERDTree<cr>
+nnoremap nt :NERDTree<cr>
 
 " Stuff to avoid C-w, which doesn't play
 " nice w/ chrome terminal
-map <C-h> <C-w>h<CR>
-map <C-l> <C-w>l<CR>
+nnoremap <C-h> <C-w>h<CR>
+nnoremap <C-l> <C-w>l<CR>
 
 " Fireplace stuff
-map eval :%Eval<CR>
+nnoremap <leader>eval :%Eval<CR>
 
 " Command-T
 let g:CommandTMaxFiles=50000
@@ -97,3 +99,7 @@ let g:paredit_mode = 1
 colorscheme vividchalk
 set cc=80
 highlight ColorColumn ctermbg=lightgrey guibg=lightgrey
+
+" mzf experimentation stuff -- this would go in the
+" plugin's .vim file, along w/ the other key mappings
+nnoremap <leader>sbm :mzf ~/scripts/bookmark.scm<cr>
