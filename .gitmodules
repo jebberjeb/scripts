@@ -1,3 +1,6 @@
 [submodule ".vim/bundle/vim-fugitive"]
 	path = .vim/bundle/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
+[submodule ".vim/bundle/conceal"]
+	path = .vim/bundle/conceal
+	url = https://github.com/jebberjeb/vim-clojure-conceal.git

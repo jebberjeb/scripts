@@ -102,4 +102,4 @@ highlight ColorColumn ctermbg=lightgrey guibg=lightgrey
 
 " mzf experimentation stuff -- this would go in the
 " plugin's .vim file, along w/ the other key mappings
-nnoremap <leader>sbm :mzf ~/scripts/bookmark.scm<cr>
+nnoremap <leader>bms :mzf ~/scripts/bookmark.scm<cr>

@@ -9,3 +9,5 @@ fi
 alias dir="ls -aFl"
 alias vim="TERM=xterm-256color vim"
 alias lein="/usr/local/bin/lein"
+
+source ~/.git-prompt.sh
