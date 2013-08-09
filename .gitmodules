@@ -7,3 +7,6 @@
 [submodule ".vim/bundle/vim-fireplace"]
 	path = .vim/bundle/vim-fireplace
 	url = https://github.com/tpope/vim-fireplace.git
+[submodule ".vim/bundle/vim-bookmark-mz"]
+	path = .vim/bundle/vim-bookmark-mz
+	url = https://github.com/jebberjeb/vim-bookmarks-mz.git

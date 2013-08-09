@@ -6,7 +6,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
-alias dir="ls -aFl"
+alias ll="ls -aFl"
 alias vim="TERM=xterm-256color vim"
 alias lein="/usr/local/bin/lein"
 

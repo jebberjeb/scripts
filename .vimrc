@@ -102,4 +102,10 @@ highlight ColorColumn ctermbg=lightgrey guibg=lightgrey
 
 " mzf experimentation stuff -- this would go in the
 " plugin's .vim file, along w/ the other key mappings
-nnoremap <leader>bms :mzf ~/scripts/bookmark.scm<cr>
+nnoremap <leader>bms :mzf ~/scripts/.vim/vim-bookmark-mz/plugin/bookmark.scm<cr>
+" something like <leader>eval, but for mz
+function! EvalMz()
+    :w
+    :mzf %
+endfunction
+nnoremap <leader>mz :call EvalMz()<cr>
