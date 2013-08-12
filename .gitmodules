@@ -10,3 +10,6 @@
 [submodule ".vim/bundle/vim-bookmark-mz"]
 	path = .vim/bundle/vim-bookmark-mz
 	url = https://github.com/jebberjeb/vim-bookmarks-mz.git
+[submodule ".vim/bundle/paredit"]
+	path = .vim/bundle/paredit
+	url = https://github.com/vim-scripts/paredit.vim.git
