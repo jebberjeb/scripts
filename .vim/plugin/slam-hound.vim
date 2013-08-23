@@ -7,7 +7,7 @@ function! s:ClojureSlamHound(file)
     call fireplace#session_eval(
         \   '(clojure.core/require (quote slam.hound) (quote clojure.pprint))'
         \ . '(let [file (clojure.java.io/file "' . a:file . '")]'
-        \ . '  (binding [clojure.pprint/*print-right-margin* 80]'
+        \ . '  (binding [clojure.pprint/*print-right-margin* ' . &textwidth . ']'
         \ . '    (slam.hound/swap-in-reconstructed-ns-form file)))'
         \ )
     edit

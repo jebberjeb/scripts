@@ -13,3 +13,6 @@
 [submodule ".vim/bundle/paredit"]
 	path = .vim/bundle/paredit
 	url = https://github.com/vim-scripts/paredit.vim.git
+[submodule ".vim/bundle/vim-json"]
+	path = .vim/bundle/vim-json
+	url = https://github.com/jakar/vim-json.git
