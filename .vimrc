@@ -109,3 +109,11 @@ function! EvalMz()
     :mzf %
 endfunction
 nnoremap <leader>mz :call EvalMz()<cr>
+
+" ------ Incubation ------
+
+" Eval the Vimscript (or whatever) in current buffer
+nnoremap <leader>run :w<cr> :so %<cr>
+" Use VimShell -- at least the basics
+nnoremap <leader>sh :VimShell<cr>
+
