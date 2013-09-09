@@ -4,7 +4,7 @@ sudo yum -y install python-devel
 sudo yum -y install ruby-devel
 cd vim
 make distclean
-./configure --enable-rubyinterp --enable-pythoninterp --enable-multibyte --with-features=big --enable-mzschemeinterp
+./configure --enable-rubyinterp --enable-pythoninterp --enable-multibyte --with-features=big --enable-mzschemeinterp --prefix=/usr
 make
 sudo make install
 cd ~

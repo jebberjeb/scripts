@@ -116,4 +116,6 @@ nnoremap <leader>mz :call EvalMz()<cr>
 nnoremap <leader>run :w<cr> :so %<cr>
 " Use VimShell -- at least the basics
 nnoremap <leader>sh :VimShell<cr>
+" Since :mz is segfaulting on linode, just shell racket eval
+nnoremap <leader>mz :!mzscheme -f %<cr>
 
