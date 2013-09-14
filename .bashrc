@@ -1,9 +1,7 @@
-# .bashrc
+# .bashrc<cr>
 
 # Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
-fi
+source /etc/bashrc
 
 # User specific aliases and functions
 alias ll="ls -aFl"
