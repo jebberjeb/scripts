@@ -108,7 +108,8 @@ function! EvalMz()
     :w
     :mzf %
 endfunction
-nnoremap <leader>mz :call EvalMz()<cr>
+"nnoremap <leader>mz :call EvalMz()<cr>
+nnoremap <leader>mz :!mzscheme -f %<cr>
 
 " ------ Incubation ------
 
