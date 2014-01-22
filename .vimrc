@@ -43,9 +43,10 @@ nnoremap <left> :vertical res -1<cr>
 nnoremap <right> :vertical res +1<cr>
 nnoremap <down> :res -1<cr>
 nnoremap <up> :res +1<cr>
-""" splitting windows
-nnoremap <leader>vsplit :vnew<cr>
-nnoremap <leader>split :new<cr>
+""" splitting windows -- removing, think it's worth knowing
+""" the default vim bindings here.
+"nnoremap <leader>vsplit :vnew<cr>
+"nnoremap <leader>split :new<cr>
 
 " Relearn a few things
 inoremap <esc> <nop>
