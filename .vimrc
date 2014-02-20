@@ -1,6 +1,6 @@
 "  is standard pathogen and vim setup
 set nocompatible
-call pathogen#infect() 
+call pathogen#infect()
 
 " General configuration
 syntax on
@@ -88,6 +88,7 @@ nnoremap <C-l> <C-w>l<CR>
 
 " Fireplace stuff
 nnoremap <leader>eval :%Eval<CR>
+nnoremap <leader>test :Eval (clojure.test/run-all-tests)<CR>
 
 " Command-T
 let g:CommandTMaxFiles=50000
@@ -126,3 +127,28 @@ function! VSplitShell()
     :VimShell
 endfunction
 nnoremap <leader>sh :call VSplitShell()<cr>
+
+function! RunTests()
+    " reload the namespace
+    norm cpr
+
+    " setup
+    call clearmatches()
+    highlight Red ctermbg=darkred
+    redir => output
+
+    " use Clojure to do the real work, run tests,
+    " parse the results
+    Eval (map #(subs % 9 (dec (count %))) (re-seq #"FAIL in \(\S*\)" (let [s# (new java.io.StringWriter)] (binding [*test-out* s#] (run-all-tests) (str s#)))))
+    redir END
+
+    " output will have the valid ('a-fn' 'b-fn')
+    " strip off the parens, then split on space
+    let output = output[2:len(output) - 2]
+    let parts = split(output, ' ')
+    for part in parts
+        exec "call matchadd('Red'," . part . ")"
+    endfor
+endfunction
+
+nnoremap <leader>tdd :call RunTests()<cr>
