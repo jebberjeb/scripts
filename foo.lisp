@@ -10,9 +10,9 @@
 
 (defun add-record (cd) (push cd *db*))
 
-(add-record (make-cd "Roses" "Kathy Mattea" 7 t))
-(add-record (make-cd "Fly" "Dixie Chicks" 8 t))
-(add-record (make-cd "Home" "Dixie Chicks" 9 t))
+;(add-record (make-cd "Roses" "Kathy Mattea" 7 t))
+;(add-record (make-cd "Fly" "Dixie Chicks" 8 t))
+;(add-record (make-cd "Home" "Dixie Chicks" 9 t))
 
 (defun dump-db ()
   (dolist (cd *db*)
@@ -31,4 +31,29 @@
 
 (defun add-cds ()
   (loop (add-record (prompt-for-cd))
-        (if 
+        (if (not (y-or-n-p "Add another [y/n]? ")) (return))))
+
+(defun save-db (filename)
+  (with-open-file (out filename
+                       :direction :output
+                       :if-exists :supersede)
+    (with-standard-io-syntax (print *db* out))))
+
+(defun load-db (filename)
+  (with-open-file (in filename)
+    (with-standard-io-syntax
+      (setf *db* (read in)))))
+
+(defun select (selector-fn)
+  (remove-if-not selector-fn *db*))
+
+(defun artist-selector (artist)
+  #'(lambda (cd) (equal (getf cd :artist) artist)))
+
+(defun where (&key title artist rating (ripped nil ripped-p))
+  #'(lambda (cd)
+      (and (if title (equal (getf cd :title) title) t)
+           (if artist (equal (getf cd :artist) artist) t)
+           (if rating (equal (getf cd :rating) rating) t)
+           (if ripped-p (equal (getf cd :ripped) ripped) t))))
+
