@@ -1,1 +1,0 @@
-/home/vagrant/yet-another-buffer-list/buflist.vim
