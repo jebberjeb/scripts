@@ -13,6 +13,10 @@ fi
 echo "SELINUX=disabled
 SELINUXTYPE=targeted" | sudo tee /etc/selinux/config
 
+# Set Central timezone
+sudo unlink /etc/localtime
+sudo ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
+
 # Setup desktop (xfce)
 sudo yum -y install @xfce
 sudo systemctl set-default multi-user.target
