@@ -17,6 +17,10 @@ SELINUXTYPE=targeted" | sudo tee /etc/selinux/config
 sudo unlink /etc/localtime
 sudo ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
 
+# Prerequisites
+sudo yum -y install python
+sudo yum -y install ruby
+
 # Setup desktop (xfce)
 sudo yum -y install @xfce
 sudo systemctl set-default multi-user.target
@@ -41,6 +45,7 @@ ln -s ~/source/dotfiles/.bashrc ~/.bashrc
 ln -s ~/source/dotfiles/.bashrc-git ~/.bashrc-git
 ln -s ~/source/dotfiles/.bashrc-path ~/.bashrc-path
 ln -s ~/source/dotfiles/.bash_profile ~/.bash_profile
+ln -s ~/source/dotfiles/.inputrc ~/.inputrc
 ln -s ~/source/dotfiles/.vimrc ~/.vimrc
 ln -s ~/source/dotfiles/.vim ~/.vim
 ln -s ~/source/dotfiles/.git-prompt.sh ~/.git-prompt.sh
