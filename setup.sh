@@ -32,6 +32,7 @@ sudo yum -y install ack
 sudo yum -y install tmux
 sudo yum -y install wget
 sudo yum -y install sshfs
+sudo yum -y install BitchX
 
 # dotfiles
 mkdir ~/source
