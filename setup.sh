@@ -31,6 +31,7 @@ sudo yum -y groupinstall "Development Tools"
 sudo yum -y install ack
 sudo yum -y install tmux
 sudo yum -y install wget
+sudo yum -y install sshfs
 
 # dotfiles
 mkdir ~/source
