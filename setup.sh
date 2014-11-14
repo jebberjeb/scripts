@@ -13,11 +13,7 @@ fi
 echo "SELINUX=disabled
 SELINUXTYPE=targeted" | sudo tee /etc/selinux/config
 
-ubuntu=0
-
-if [[ 1 = $(uname --all | grep -c Ubuntu) ]]; then
-    ubuntu=1
-fi
+ubuntu=$(uname --all | grep -c Ubuntu)
 
 # Set Central timezone
 sudo unlink /etc/localtime
