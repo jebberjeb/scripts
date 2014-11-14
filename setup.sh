@@ -86,7 +86,26 @@ sudo cp -rf apache-maven-3.0.5 /usr/local/
 rm -rf apache-maven-3.0.5
 rm apache-maven-3.0.5-bin.tar.gz
 
-## Leiningen
+# Leiningen
 curl --insecure https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein | sudo tee /usr/local/bin/lein
 sudo chmod a+x /usr/local/bin/lein
 
+# Hipchat
+if [[ "$os" == "ubuntu" ]]; then
+    sudo su
+    echo "deb http://downloads.hipchat.com/linux/apt stable main" > \
+          /etc/apt/sources.list.d/atlassian-hipchat.list
+    wget -O - https://www.hipchat.com/keys/hipchat-linux.key | apt-key add -
+    apt-get -y update
+    apt-get -y install hipchat
+elif [[ "$os" == "fedora" ]]; then
+    sudo su
+    echo "[atlassian-hipchat]
+name=Atlassian Hipchat
+baseurl=http://downloads.hipchat.com/linux/yum
+enabled=1
+gpgcheck=1
+gpgkey=https://www.hipchat.com/keys/hipchat-linux.key
+" > /etc/yum.repos.d/atlassian-hipchat.repo
+    yum install hipchat
+fi
