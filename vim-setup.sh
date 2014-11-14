@@ -1,9 +1,10 @@
-ubuntu=$(uname --all | grep -c Ubuntu)
-if [[ 1 = $ubuntu ]]; then
-    sudo apt-get -y install ack
-else
-    sudo yum -y install ack
-fi
+#! /bin/bash
+
+. env.sh
+set_os
+
+sudo $installer install ack
+
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 cd ~/.vim/bundle/vimproc.vim

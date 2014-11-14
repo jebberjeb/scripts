@@ -13,53 +13,40 @@ fi
 echo "SELINUX=disabled
 SELINUXTYPE=targeted" | sudo tee /etc/selinux/config
 
-ubuntu=$(uname --all | grep -c Ubuntu)
+# Grab env script, set os, installer
+curl https://raw.githubusercontent.com/jebberjeb/scripts/master/env.sh > env.sh
+. env.sh
+set_os
 
 # Set Central timezone
 sudo unlink /etc/localtime
 sudo ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
 
-# Other OS specific stuff
+# Turn on audio
 sudo adduser jeb audio
-if [[ 1 = $ubuntu ]]; then
-    echo "using ubuntu server, don't need to turn off gui boot"
-else
+
+# Only need to disable gui boot on Fedora, since we're using
+# Ubuntu server.
+if [[ "$os" == "fedora" ]]; then
     sudo systemctl set-default multi-user.target
 fi
 
 # Install packages
-if [[ 1 = $ubuntu ]]; then
+sudo $installer install python
+sudo $installer install ruby
+sudo $installer install java
+sudo $installer install git
+sudo $installer install ack
+sudo $installer install tmux
+sudo $installer install wget
+sudo $installer install sshfs
+sudo $installer install BitchX
 
-    # Same name, just using apt-get
-    sudo apt-get -y install python
-    sudo apt-get -y install ruby
-    sudo apt-get -y install java
-    sudo apt-get -y install git
-    sudo apt-get -y install ack
-    sudo apt-get -y install tmux
-    sudo apt-get -y install wget
-    sudo apt-get -y install sshfs
-    sudo apt-get -y install BitchX
-
-    # Different package names
+if [[ "$os" == "ubuntu" ]]; then
     sudo apt-get -y install xfce4 xfce4-goodies
     sudo apt-get -y install make
     sudo apt-get -y install gcc
-
-else
-
-    # Same name, just using yum
-    sudo yum -y install python
-    sudo yum -y install ruby
-    sudo yum -y install java
-    sudo yum -y install git
-    sudo yum -y install ack
-    sudo yum -y install tmux
-    sudo yum -y install wget
-    sudo yum -y install sshfs
-    sudo yum -y install BitchX
-
-    # Differnt package names
+elif [[ "$os" == "fedora" ]]; then
     sudo yum -y install @xfce
     sudo yum -y groupinstall "Development Tools"
 fi
@@ -71,6 +58,8 @@ git clone https://github.com/jebberjeb/scripts
 git clone https://github.com/jebberjeb/dotfiles
 
 cd ~
+# Only remove these two dotfiles, since this script is used for
+# setting up a fresh install.
 rm .bashrc
 rm .bash_profile
 ~/source/scripts/symlinks.sh
@@ -79,20 +68,18 @@ rm .bash_profile
 ~/source/scripts/vim-install.sh
 ~/source/scripts/vim-setup.sh
 
-# Other apps/tools w/ more complex setup
-
-## Chrome
-if [[ 1 = $ubuntu ]]; then
+# Chrome
+if [[ "$os" == "ubuntu" ]]; then
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
     sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
     sudo apt-get -y update
     sudo apt-get -y install google-chrome-stable
-else
+elif [[ "$os" == "fedora" ]]; then
     sudo cp ~/source/scripts/google-chrome.repo /etc/yum.repos.d
     sudo yum -y install --nogpgcheck google-chrome-stable
 fi
 
-## Maven
+# Maven
 wget http://mirror.olnevhost.net/pub/apache/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
 tar xvf apache-maven-3.0.5-bin.tar.gz
 sudo cp -rf apache-maven-3.0.5 /usr/local/
