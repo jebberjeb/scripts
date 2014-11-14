@@ -13,26 +13,60 @@ fi
 echo "SELINUX=disabled
 SELINUXTYPE=targeted" | sudo tee /etc/selinux/config
 
+ubuntu=0
+
+if [[ 1 = $(uname --all | grep -c Ubuntu) ]]; then
+    ubuntu=1
+fi
+
 # Set Central timezone
 sudo unlink /etc/localtime
 sudo ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
 
-# Prerequisites
-sudo yum -y install python
-sudo yum -y install ruby
+# Other OS specific stuff
+sudo adduser jeb audio
+if [[ 1 = $ubuntu ]]; then
+    echo "using ubuntu server, don't need to turn off gui boot"
+else
+    sudo systemctl set-default multi-user.target
+fi
 
-# Setup desktop (xfce)
-sudo yum -y install @xfce
-sudo systemctl set-default multi-user.target
+# Install packages
+if [[ 1 = $ubuntu ]]; then
 
-# Tools (that go on easy)
-sudo yum -y install git
-sudo yum -y groupinstall "Development Tools"
-sudo yum -y install ack
-sudo yum -y install tmux
-sudo yum -y install wget
-sudo yum -y install sshfs
-sudo yum -y install BitchX
+    # Same name, just using apt-get
+    sudo apt-get -y install python
+    sudo apt-get -y install ruby
+    sudo apt-get -y install java
+    sudo apt-get -y install git
+    sudo apt-get -y install ack
+    sudo apt-get -y install tmux
+    sudo apt-get -y install wget
+    sudo apt-get -y install sshfs
+    sudo apt-get -y install BitchX
+
+    # Different package names
+    sudo apt-get -y install xfce4 xfce4-goodies
+    sudo apt-get -y install make
+    sudo apt-get -y install gcc
+
+else
+
+    # Same name, just using yum
+    sudo yum -y install python
+    sudo yum -y install ruby
+    sudo yum -y install java
+    sudo yum -y install git
+    sudo yum -y install ack
+    sudo yum -y install tmux
+    sudo yum -y install wget
+    sudo yum -y install sshfs
+    sudo yum -y install BitchX
+
+    # Differnt package names
+    sudo yum -y install @xfce
+    sudo yum -y groupinstall "Development Tools"
+fi
 
 # dotfiles
 mkdir ~/source
@@ -51,27 +85,25 @@ rm .bash_profile
 
 # Other apps/tools w/ more complex setup
 
-## skype
-wget http://download.skype.com/linux/skype-4.3.0.37-fedora.i586.rpm
-sudo yum -y localinstall skype-4.3.0.37-fedora.i586.rpm
+## Chrome
+if [[ 1 = $ubuntu ]]; then
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+    sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+    sudo apt-get -y update
+    sudo apt-get -y install google-chrome-stable
+else
+    sudo cp ~/source/scripts/google-chrome.repo /etc/yum.repos.d
+    sudo yum -y install --nogpgcheck google-chrome-stable
+fi
 
-## chrome
-sudo cp ~/source/scripts/google-chrome.repo /etc/yum.repos.d
-sudo yum -y install --nogpgcheck google-chrome-stable
-
-## java
-wget https://www.dropbox.com/sh/at2y14m65f12qe9/AAAX9amN5DyuoUu8AZPGJ1F5a/virtualbox-stuff/jdk-7u60-linux-x64.rpm
-sudo rpm -i jdk-7u60-linux-x64.rpm
-sudo rm /usr/bin/java
-sudo ln -s /usr/java/default/bin/java /usr/bin/java
-
-## maven
+## Maven
 wget http://mirror.olnevhost.net/pub/apache/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
 tar xvf apache-maven-3.0.5-bin.tar.gz
 sudo cp -rf apache-maven-3.0.5 /usr/local/
 rm -rf apache-maven-3.0.5
 rm apache-maven-3.0.5-bin.tar.gz
 
-## lein
+## Leiningen
 curl --insecure https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein | sudo tee /usr/local/bin/lein
 sudo chmod a+x /usr/local/bin/lein
+
