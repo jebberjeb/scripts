@@ -1,13 +1,23 @@
 #! /bin/bash
 
 # TODO
-# - help
+# - help if no args
 # - PR template
 
+function inform() {
+    echo "mea <story number> -or- mea <action> [options]"
+}
+
 re='^[0-9]+$'
-if [[ ${1} =~ ${re} ]] ; then
+if [[ ${1} == "help" ]]; then
+    inform
+elif [[ ${1} =~ ${re} ]] ; then
     google-chrome "https://stapleslabs.atlassian.net/browse/MEA-${1}"
 else
-    echo "Coming Soon!"
+    if [[ ${1} == "wiki" ]] ; then
+        google-chrome "https://stapleslabs.atlassian.net/wiki/dosearchsite.action?queryString=${2}"
+    elif [[ ${1} == "pr" ]] ; then
+        echo "Coming Soon!"
+    fi
 fi
 
