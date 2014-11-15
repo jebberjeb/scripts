@@ -6,9 +6,7 @@
 
 if [[ $1 == "morning" ]]; then
 
-    /usr/bin/hipchat &
-
-    xfce4-terminal --tab --command="ssh -A cog-pair -t 'tmux att -t furtive'" --hold --tab --command="ssh -L 3001:localhost:3001 cog-pair" --hold
+    ./start-work
 
     google-chrome https://stapleslabs.atlassian.net/secure/RapidBoard.jspa?rapidView=18 \
     http://localhost:3001 \
@@ -17,8 +15,7 @@ if [[ $1 == "morning" ]]; then
 
 elif [[ $1 == "night" ]]; then
 
-    pkill hipchat
+    ./stop-work
+
     pkill chrome
-    pkill ssh
-    pkill xfce4-terminal
 fi
