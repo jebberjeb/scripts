@@ -1,0 +1,13 @@
+#! /bin/bash
+
+# TODO
+# - help
+# - PR template
+
+re='^[0-9]+$'
+if [[ ${1} =~ ${re} ]] ; then
+    google-chrome "https://stapleslabs.atlassian.net/browse/MEA-${1}"
+else
+    echo "Coming Soon!"
+fi
+
