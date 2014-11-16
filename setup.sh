@@ -34,7 +34,6 @@ fi
 # Install packages
 sudo $installer install python
 sudo $installer install ruby
-sudo $installer install java
 sudo $installer install git
 sudo $installer install ack
 sudo $installer install tmux
@@ -46,9 +45,11 @@ if [[ "$os" == "ubuntu" ]]; then
     sudo apt-get -y install xfce4 xfce4-goodies
     sudo apt-get -y install make
     sudo apt-get -y install gcc
+    sudo apt-get -y install default-jdk
 elif [[ "$os" == "fedora" ]]; then
     sudo yum -y install @xfce
     sudo yum -y groupinstall "Development Tools"
+    sudo yum -y install java
 fi
 
 # dotfiles
