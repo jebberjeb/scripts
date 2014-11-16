@@ -109,3 +109,13 @@ gpgkey=https://www.hipchat.com/keys/hipchat-linux.key
 " > /etc/yum.repos.d/atlassian-hipchat.repo
     yum install hipchat
 fi
+
+echo "More stuff to do:
+---
+* Device -> Insert Guest Additions CD...
+* Right click on CD, mount, open terminal here
+* Run VBoxInstaller.run as sudo
+---
+* cp ~/source/scripts/xfce4-keyboard-shortcuts.xml ~/.config/xfce4/xfconf/xfce-perchannel-xml/
+---"
+
