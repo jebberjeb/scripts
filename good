@@ -15,7 +15,8 @@ if [[ $1 == "morning" ]]; then
 
 elif [[ $1 == "night" ]]; then
 
+    pkill chrome
+
     stop-work
 
-    pkill chrome
 fi
