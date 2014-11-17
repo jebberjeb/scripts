@@ -23,7 +23,8 @@ sudo unlink /etc/localtime
 sudo ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
 
 # Turn on audio
-sudo adduser jeb audio
+#sudo adduser jeb audio
+sudo usermod -a -G audio jeb
 
 # Only need to disable gui boot on Fedora, since we're using
 # Ubuntu server.
