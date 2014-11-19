@@ -12,4 +12,4 @@ ln -s ~/source/dotfiles/.lein ~/.lein
 ln -s ~/source/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/source/dotfiles/.gitignore ~/.gitignore
 ln -s ~/source/dotfiles/.gitconfig ~/.gitconfig
-
+ln -s ~/source/dotfiles/.bitchxrc ~/.bitchxrc

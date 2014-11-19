@@ -35,21 +35,22 @@ fi
 sudo $installer install python
 sudo $installer install ruby
 sudo $installer install git
-sudo $installer install ack
 sudo $installer install tmux
 sudo $installer install wget
 sudo $installer install sshfs
-sudo $installer install BitchX
+sudo $installer install subversion
 
 if [[ "$os" == "ubuntu" ]]; then
-    sudo apt-get -y install xfce4 xfce4-goodies
-    sudo apt-get -y install make
-    sudo apt-get -y install gcc
-    sudo apt-get -y install default-jdk
+    sudo $installer install xfce4 xfce4-goodies
+    sudo $installer install make
+    sudo $installer install gcc
+    sudo $installer install default-jdk
+    sudo $installer install ack-grep
 elif [[ "$os" == "fedora" ]]; then
-    sudo yum -y install @xfce
-    sudo yum -y groupinstall "Development Tools"
-    sudo yum -y install java
+    sudo $installer install @xfce
+    sudo $installer groupinstall "Development Tools"
+    sudo $installer install java
+    sudo $installer install ack
 fi
 
 # dotfiles
@@ -73,11 +74,11 @@ rm .bash_profile
 if [[ "$os" == "ubuntu" ]]; then
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
     sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-    sudo apt-get -y update
-    sudo apt-get -y install google-chrome-stable
+    sudo $installer update
+    sudo $installer install google-chrome-stable
 elif [[ "$os" == "fedora" ]]; then
     sudo cp ~/source/scripts/google-chrome.repo /etc/yum.repos.d
-    sudo yum -y install --nogpgcheck google-chrome-stable
+    sudo $installer install --nogpgcheck google-chrome-stable
 fi
 
 # Maven
@@ -97,8 +98,8 @@ if [[ "$os" == "ubuntu" ]]; then
     echo "deb http://downloads.hipchat.com/linux/apt stable main" > \
           /etc/apt/sources.list.d/atlassian-hipchat.list
     wget -O - https://www.hipchat.com/keys/hipchat-linux.key | apt-key add -
-    apt-get -y update
-    apt-get -y install hipchat
+    $installer update
+    $installer install hipchat
 elif [[ "$os" == "fedora" ]]; then
     sudo su
     echo "[atlassian-hipchat]
@@ -111,6 +112,25 @@ gpgkey=https://www.hipchat.com/keys/hipchat-linux.key
     yum install hipchat
 fi
 
+# BitchX
+cd ~
+svn checkout svn://svn.code.sf.net/p/bitchx/code/trunk bitchx-code
+./configure --prefix=/usr
+make
+sudo make install
+
+# DragonDisk (for s3)
+if [[ "$os" == "ubuntu" ]]; then
+    wget http://download.dragondisk.com/dragondisk_1.0.5-0ubuntu_amd64.deb
+    sudo $installer install libqt4-dbus libqt4-network libqt4-xml libqtcore4 libqtgui4
+    sudo dpkg -i dragondisk_1.0.5-0ubuntu_amd64.deb
+elif [[ "$os" == "fedora" ]]; then
+    cd ~
+    wget http://download.dragondisk.com/dragondisk-1.0.5-1.i686.rpm
+    sudo rpm -i dragondisk-1.0.5-1.i686.rpm
+fi
+
+# TODO
 echo "More stuff to do:
 ---
 * Device -> Insert Guest Additions CD...
