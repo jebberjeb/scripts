@@ -122,6 +122,7 @@ fi
 # BitchX
 cd ~
 svn checkout svn://svn.code.sf.net/p/bitchx/code/trunk bitchx-code
+cd bitchx-code
 ./configure --prefix=/usr
 make
 sudo make install
