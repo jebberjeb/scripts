@@ -42,16 +42,26 @@ sudo $installer install sshfs
 sudo $installer install subversion
 
 if [[ "$os" == "ubuntu" ]]; then
+
     sudo $installer install xfce4 xfce4-goodies
     sudo $installer install make
     sudo $installer install gcc
     sudo $installer install default-jdk
     sudo $installer install ack-grep
+    sudo $installer install ncurses-dev
+    sudo $installer install python-dev
+    sudo $installer install ruby-dev
+
 elif [[ "$os" == "fedora" ]]; then
+
     sudo $installer install @xfce
     sudo $installer groupinstall "Development Tools"
     sudo $installer install java
     sudo $installer install ack
+    sudo $installer install ncurses-devel
+    sudo $installer install python-devel
+    sudo $installer install ruby-devel
+
 fi
 
 # dotfiles
@@ -66,10 +76,6 @@ cd ~
 rm .bashrc
 rm .bash_profile
 ~/source/scripts/symlinks.sh
-
-# Vim
-~/source/scripts/vim-install.sh
-~/source/scripts/vim-setup.sh
 
 # Chrome
 if [[ "$os" == "ubuntu" ]]; then
@@ -130,6 +136,17 @@ elif [[ "$os" == "fedora" ]]; then
     wget http://download.dragondisk.com/dragondisk-1.0.5-1.i686.rpm
     sudo rpm -i dragondisk-1.0.5-1.i686.rpm
 fi
+
+# Vim
+cd ~
+git clone https://github.com/b4winckler/vim.git ~/vim
+cd ~/vim
+git checkout tags/v7-4-200
+make distclean
+./configure --enable-rubyinterp --enable-pythoninterp --enable-multibyte --with-features=big --prefix=/usr
+make
+sudo make install
+~/source/scripts/vim-setup.sh
 
 # TODO
 echo "More stuff to do:

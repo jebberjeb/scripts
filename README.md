@@ -1,8 +1,7 @@
 # scripts
 
-## Vim
+* setup.sh will install everythin for either Fedora or Ubunut
 
-* Use vim-install.sh to get vim source from github, build, install
-* Use vim-setup.sh to install plugins
-
-If vim (with python support) already on a machine, don't need vim-install.sh, just use vim-setup.sh.
+* Use vim-setup.sh to install plugins -- this lives in a separate script so
+  vim initialization can be performed in other environments, without all of
+  setup.sh.
