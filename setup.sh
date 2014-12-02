@@ -44,6 +44,7 @@ sudo $installer install subversion
 if [[ "$os" == "ubuntu" ]]; then
 
     sudo $installer install xfce4 xfce4-goodies
+    sudo $installer gnome-icon-theme-full tango-icon-theme
     sudo $installer install make
     sudo $installer install gcc
     sudo $installer install default-jdk
@@ -157,5 +158,10 @@ echo "More stuff to do:
 * Run VBoxInstaller.run as sudo
 ---
 * cp ~/source/scripts/xfce4-keyboard-shortcuts.xml ~/.config/xfce4/xfconf/xfce-perchannel-xml/
----"
+---
+copy over ssh key
+---
+clone private repo
+---
+"
 
