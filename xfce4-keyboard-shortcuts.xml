@@ -18,12 +18,12 @@
       <property name="XF86Mail" type="empty"/>
     </property>
     <property name="custom" type="empty">
-      <property name="&lt;Primary&gt;&lt;Alt&gt;Delete" type="string" value="xflock4"/>
       <property name="&lt;Primary&gt;Escape" type="string" value="xfdesktop --menu"/>
       <property name="override" type="bool" value="true"/>
-      <property name="&lt;Primary&gt;&lt;Alt&gt;1" type="string" value="xfce4-terminal"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;2" type="string" value="xfce4-appfinder --collapsed"/>
-      <property name="&lt;Primary&gt;0" type="string" value="foo"/>
+      <property name="&lt;Super&gt;space" type="string" value="xfce4-terminal"/>
+      <property name="&lt;Super&gt;equal" type="string" value="/home/jeb/source/scripts/xfce-term-font-up.sh"/>
+      <property name="&lt;Super&gt;minus" type="string" value="/home/jeb/source/scripts/xfce-term-font-down.sh"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">

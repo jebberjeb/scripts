@@ -150,6 +150,10 @@ make
 sudo make install
 ~/source/scripts/vim-setup.sh
 
+# Finalize config(s)
+cd ~/source/scripts
+./spit-xfce-config.sh
+
 # TODO
 echo "More stuff to do:
 ---
@@ -157,11 +161,8 @@ echo "More stuff to do:
 * Right click on CD, mount, open terminal here
 * Run VBoxInstaller.run as sudo
 ---
-* cp ~/source/scripts/xfce4-keyboard-shortcuts.xml ~/.config/xfce4/xfconf/xfce-perchannel-xml/
----
 copy over ssh key
 ---
 clone private repo
 ---
 "
-
