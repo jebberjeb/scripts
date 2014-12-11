@@ -170,13 +170,10 @@ make
 sudo make install
 ~/source/scripts/vim-setup.sh
 
-# Finalize config(s)
-echo "Finalize config"
-cd ~/source/scripts
-./spit-xfce-config.sh
-
 # TODO
 echo "More stuff to do:
+---
+* After running xfce, ~/source/scripts/spit-xfce-config.sh
 ---
 * Device -> Insert Guest Additions CD...
 * Right click on CD, mount, open terminal here
