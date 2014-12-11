@@ -121,22 +121,20 @@ sudo chmod a+x /usr/local/bin/lein
 # Hipchat
 echo "Install HipChat"
 if [[ "$os" == "ubuntu" ]]; then
-    sudo su
-    echo "deb http://downloads.hipchat.com/linux/apt stable main" > \
+    sudo echo "deb http://downloads.hipchat.com/linux/apt stable main" > \
           /etc/apt/sources.list.d/atlassian-hipchat.list
-    wget -O - https://www.hipchat.com/keys/hipchat-linux.key | apt-key add -
-    $installer update
-    $installer install hipchat
+    sudo wget -O - https://www.hipchat.com/keys/hipchat-linux.key | apt-key add -
+    sudo $installer update
+    sudo $installer install hipchat
 elif [[ "$os" == "fedora" ]]; then
-    sudo su
-    echo "[atlassian-hipchat]
+    sudo echo "[atlassian-hipchat]
 name=Atlassian Hipchat
 baseurl=http://downloads.hipchat.com/linux/yum
 enabled=1
 gpgcheck=1
 gpgkey=https://www.hipchat.com/keys/hipchat-linux.key
 " > /etc/yum.repos.d/atlassian-hipchat.repo
-    yum install hipchat
+    sudo $installer install hipchat
 fi
 
 # BitchX
