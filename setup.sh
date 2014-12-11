@@ -44,12 +44,12 @@ sudo $installer install subversion
 if [[ "$os" == "ubuntu" ]]; then
 
     sudo $installer install xfce4 xfce4-goodies
-    sudo $installer gnome-icon-theme-full tango-icon-theme
+    sudo $installer install gnome-icon-theme-full tango-icon-theme
     sudo $installer install make
     sudo $installer install gcc
     sudo $installer install default-jdk
     sudo $installer install ack-grep
-    sudo $installer install ncurses-dev
+    sudo $installer install libncurses5-dev
     sudo $installer install python-dev
     sudo $installer install ruby-dev
 
