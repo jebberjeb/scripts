@@ -7,5 +7,12 @@ if [[ $1 == "start" ]]; then
     fi
 
     sshfs cog-pair:/home/pair ~/sshfs
+
+fi
+
+if [[ $1 == "stop" ]]; then
+
+    fusermount -u ~/sshfs
+
 fi
 
