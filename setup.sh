@@ -14,17 +14,9 @@ echo "Disabling SE Linux"
 echo "SELINUX=disabled
 SELINUXTYPE=targeted" | sudo tee /etc/selinux/config
 
-# Grab env script, set os, installer
-echo "Set ENV"
-curl https://raw.githubusercontent.com/jebberjeb/scripts/master/env.sh > env.sh
-. env.sh
-set_os
-
-# Prime Installer
-echo "Prime Installer"
-if [[ "$os" == "ubuntu" ]]; then
-    sudo $installer update
-fi
+# Prime installer
+echo "Prime installer"
+sudo apt-get -y update
 
 # Set Central timezone
 echo "Set timezone"
@@ -33,51 +25,26 @@ sudo ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
 
 # Turn on audio
 echo "Configure audio"
-#sudo adduser jeb audio
 sudo usermod -a -G audio jeb
 
-# Only need to disable gui boot on Fedora, since we're using
-# Ubuntu server.
-echo "Set run-level 3"
-if [[ "$os" == "fedora" ]]; then
-    sudo systemctl set-default multi-user.target
-fi
-
 # Install packages
-echo "Install common packages"
-sudo $installer install python
-sudo $installer install ruby
-sudo $installer install git
-sudo $installer install tmux
-sudo $installer install wget
-sudo $installer install sshfs
-sudo $installer install subversion
-
-if [[ "$os" == "ubuntu" ]]; then
-
-    echo "Install Ubuntu packages"
-    sudo $installer install xfce4 xfce4-goodies
-    sudo $installer install gnome-icon-theme-full tango-icon-theme
-    sudo $installer install make
-    sudo $installer install gcc
-    sudo $installer install default-jdk
-    sudo $installer install ack-grep
-    sudo $installer install libncurses5-dev
-    sudo $installer install python-dev
-    sudo $installer install ruby-dev
-
-elif [[ "$os" == "fedora" ]]; then
-
-    echo "Install Fedora packages"
-    sudo $installer install @xfce
-    sudo $installer groupinstall "Development Tools"
-    sudo $installer install java
-    sudo $installer install ack
-    sudo $installer install ncurses-devel
-    sudo $installer install python-devel
-    sudo $installer install ruby-devel
-
-fi
+echo "Install apt-get packages"
+sudo apt-get -y install python
+sudo apt-get -y install ruby
+sudo apt-get -y install git
+sudo apt-get -y install tmux
+sudo apt-get -y install wget
+sudo apt-get -y install sshfs
+sudo apt-get -y install subversion
+sudo apt-get -y install xfce4 xfce4-goodies
+sudo apt-get -y install gnome-icon-theme-full tango-icon-theme
+sudo apt-get -y install make
+sudo apt-get -y install gcc
+sudo apt-get -y install default-jdk
+sudo apt-get -y install ack-grep
+sudo apt-get -y install libncurses5-dev
+sudo apt-get -y install python-dev
+sudo apt-get -y install ruby-dev
 
 # dotfiles
 echo "Setup dotfiles and scripts"
@@ -95,15 +62,10 @@ rm .bash_profile
 
 # Chrome
 echo "Install Chrome"
-if [[ "$os" == "ubuntu" ]]; then
-    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-    sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-    sudo $installer update
-    sudo $installer install google-chrome-stable
-elif [[ "$os" == "fedora" ]]; then
-    sudo cp ~/source/scripts/google-chrome.repo /etc/yum.repos.d
-    sudo $installer install --nogpgcheck google-chrome-stable
-fi
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+sudo apt-get -y update
+sudo apt-get -y install google-chrome-stable
 
 # Maven
 echo "Install Maven"
@@ -120,22 +82,11 @@ sudo chmod a+x /usr/local/bin/lein
 
 # Hipchat
 echo "Install HipChat"
-if [[ "$os" == "ubuntu" ]]; then
-    sudo echo "deb http://downloads.hipchat.com/linux/apt stable main" > \
-          /etc/apt/sources.list.d/atlassian-hipchat.list
-    sudo wget -O - https://www.hipchat.com/keys/hipchat-linux.key | apt-key add -
-    sudo $installer update
-    sudo $installer install hipchat
-elif [[ "$os" == "fedora" ]]; then
-    sudo echo "[atlassian-hipchat]
-name=Atlassian Hipchat
-baseurl=http://downloads.hipchat.com/linux/yum
-enabled=1
-gpgcheck=1
-gpgkey=https://www.hipchat.com/keys/hipchat-linux.key
-" > /etc/yum.repos.d/atlassian-hipchat.repo
-    sudo $installer install hipchat
-fi
+sudo echo "deb http://downloads.hipchat.com/linux/apt stable main" > \
+      /etc/apt/sources.list.d/atlassian-hipchat.list
+sudo wget -O - https://www.hipchat.com/keys/hipchat-linux.key | apt-key add -
+sudo apt-get -y update
+sudo apt-get -y install hipchat
 
 # BitchX
 echo "Install BitchX"
@@ -148,15 +99,9 @@ sudo make install
 
 # DragonDisk (for s3)
 echo "Install DragonDisk"
-if [[ "$os" == "ubuntu" ]]; then
-    wget http://download.dragondisk.com/dragondisk_1.0.5-0ubuntu_amd64.deb
-    sudo $installer install libqt4-dbus libqt4-network libqt4-xml libqtcore4 libqtgui4
-    sudo dpkg -i dragondisk_1.0.5-0ubuntu_amd64.deb
-elif [[ "$os" == "fedora" ]]; then
-    cd ~
-    wget http://download.dragondisk.com/dragondisk-1.0.5-1.i686.rpm
-    sudo rpm -i dragondisk-1.0.5-1.i686.rpm
-fi
+wget http://download.dragondisk.com/dragondisk_1.0.5-0ubuntu_amd64.deb
+sudo apt-get -y install libqt4-dbus libqt4-network libqt4-xml libqtcore4 libqtgui4
+sudo dpkg -i dragondisk_1.0.5-0ubuntu_amd64.deb
 
 # Vim
 echo "Install Vim"
