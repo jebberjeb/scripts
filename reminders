@@ -4,5 +4,10 @@
 === jumping ===
 in normal mode: m[a-z] to set, '[a-z] or `[a-z] to recall
 
+=== Clojure ===
+* use grimoire.vim, ,grim to see docs, rather than `K`
+* reorganize all Clojure functions into a single section or file,
+  rethink vimkit
+
 *****
 
