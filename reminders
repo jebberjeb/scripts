@@ -1,6 +1,8 @@
 
 *****
 
+* F (as opposed to f) for backing up within a line
+
 === jumping ===
 in normal mode: m[a-z] to set, '[a-z] or `[a-z] to recall
 
