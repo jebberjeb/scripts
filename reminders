@@ -11,5 +11,8 @@ in normal mode: m[a-z] to set, '[a-z] or `[a-z] to recall
 * reorganize all Clojure functions into a single section or file,
   rethink vimkit
 
+=== Ctrl+P ===
+* to go up a dir (root search dir), just enter ..
+
 *****
 
