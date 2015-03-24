@@ -44,6 +44,7 @@ function install_packages() {
     sudo apt-get -y install python-dev
     sudo apt-get -y install ruby-dev
     sudo apt-get -y install espeak
+    sudo apt-get -y install libreoffice
 }
 
 function setup_dotfiles() {
