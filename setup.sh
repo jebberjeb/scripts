@@ -159,7 +159,8 @@ if [[ ${1} == "all" ]]; then
     install_hipchat
     install_bitchx
     install_dragondisk
-    install_racket
+    #TODO - make this opt-in, rather than default (expensive)
+    #install_racket
     install_vim
     install_neovim
 fi
