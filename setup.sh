@@ -46,6 +46,7 @@ function install_packages() {
     sudo apt-get -y install espeak
     sudo apt-get -y install libreoffice
     sudo apt-get -y install htop
+    sudo apt-get -y install rlwrap
 }
 
 function setup_dotfiles() {
