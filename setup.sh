@@ -147,8 +147,6 @@ function install_neovim() {
     git clone https://github.com/neovim/neovim.git
     cd neovim
     sudo make install
-    ln -s ~/.vim ~/.nvim
-    ln -s ~/.vimrc ~/.nvimrc
 }
 
 if [[ ${1} == "all" ]]; then

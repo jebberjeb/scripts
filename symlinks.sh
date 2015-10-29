@@ -13,3 +13,6 @@ ln -f -s ~/source/dotfiles/.tmux.conf ~/.tmux.conf
 ln -f -s ~/source/dotfiles/.gitignore ~/.gitignore
 ln -f -s ~/source/dotfiles/.gitconfig ~/.gitconfig
 ln -f -s ~/source/dotfiles/.bitchxrc ~/.bitchxrc
+mkdir ~/.config
+ln -f -s ~/.vim ~/.config/nvim
+ln -f -s ~/.vimrc ~/.config/nvim/init.vim
