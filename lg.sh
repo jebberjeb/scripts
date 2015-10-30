@@ -15,3 +15,4 @@ cd ~/source/neovim
 sudo make distclean
 sudo make install
 sudo pip2 install neovim
+mkdir -p ~/.local/share/nvim
