@@ -30,6 +30,7 @@ function install_packages() {
     sudo apt-get -y install python
     sudo apt-get -y install ruby
     sudo apt-get -y install git
+    sudo apt-get -y install gist
     sudo apt-get -y install tmux
     sudo apt-get -y install wget
     sudo apt-get -y install sshfs
