@@ -48,6 +48,7 @@ function install_packages() {
     sudo apt-get -y install libreoffice
     sudo apt-get -y install htop
     sudo apt-get -y install rlwrap
+    sudo apt-get -y install tree
 }
 
 function setup_dotfiles() {
