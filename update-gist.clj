@@ -16,4 +16,4 @@
       _ (say "gist id" gist-id)
       url (:out (sh/sh "gist" "-u" gist-id filename))]
   (say "url" url)
-  (say "done - id added to " filename))
+  (say "done"))
