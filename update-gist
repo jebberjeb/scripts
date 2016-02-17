@@ -1,0 +1,3 @@
+#! /bin/bash
+
+lein exec ~/source/scripts/update-gist.clj ${1}
