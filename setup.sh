@@ -49,6 +49,7 @@ function install_packages() {
     sudo apt-get -y install htop
     sudo apt-get -y install rlwrap
     sudo apt-get -y install tree
+    sudo apt-get -y install ctags
 }
 
 function setup_dotfiles() {
