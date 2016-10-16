@@ -1,3 +1,3 @@
 #! /bin/bash
 
-sudo ifconfig eth0 down && sudo ifconfig eth0 up
+sudo ifdown eth0 && sudo ifup eth0
