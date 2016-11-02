@@ -70,7 +70,7 @@ function setup_dotfiles() {
 function install_chrome() {
     echo "Install Chrome"
     sudo bash -c 'wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
-    sudo bash -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
+    sudo bash -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
     sudo apt-get -y update
     sudo apt-get -y install google-chrome-stable
 }
