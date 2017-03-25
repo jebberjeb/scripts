@@ -50,6 +50,14 @@ function install_packages() {
     sudo apt-get -y install rlwrap
     sudo apt-get -y install tree
     sudo apt-get -y install ctags
+    sudo apt-get -y install compiz
+    sudo apt-get -y install compizconfig-settings-manager
+    sudo apt-get -y install compiz-plugins
+
+    sudo apt-get -y install feh
+    xdg-mime default feh.desktop image/png
+    xdg-mime default feh.desktop image/jpg
+    xdg-mime default feh.desktop image/gif
 }
 
 function setup_dotfiles() {
@@ -176,9 +184,11 @@ echo "More stuff to do:
 * Device -> Insert Guest Additions CD...
 * Right click on CD, mount, open terminal here
 * Run VBoxInstaller.run as sudo
+* Setup compiz
+    * run ccsm gui
+    * import profile settigs from scripts/compiz-settings.profile
 ---
 copy over ssh key
 ---
 clone private repo
 ---
-"
