@@ -14,7 +14,7 @@ elif [[ $1 == "lg-vm" ]]; then
 
 elif [[ $1 == "mm" ]]; then
 
-    remote_host="jebbeich@192.168.1.164"
+    remote_host="jebbeich@192.168.1.183"
     remote_path="/Users/jebbeich/source/app.mm.accounts"
     sshfs_dir="$HOME/source/app.mm.accounts-sshfs"
 fi
