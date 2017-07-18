@@ -58,6 +58,8 @@ function install_packages() {
     xdg-mime default feh.desktop image/png
     xdg-mime default feh.desktop image/jpg
     xdg-mime default feh.desktop image/gif
+
+    sudo apt-get -y install vnc4server
 }
 
 function setup_dotfiles() {
