@@ -8,7 +8,6 @@ ln -f -s ~/source/dotfiles/.inputrc ~/.inputrc
 ln -f -s ~/source/dotfiles/.vimrc ~/.vimrc
 ln -f -s ~/source/dotfiles/.vim ~/.vim
 ln -f -s ~/source/dotfiles/.git-prompt.sh ~/.git-prompt.sh
-ln -f -s ~/source/dotfiles/.lein ~/.lein
 ln -f -s ~/source/dotfiles/.tmux.conf ~/.tmux.conf
 ln -f -s ~/source/dotfiles/.gitignore ~/.gitignore
 ln -f -s ~/source/dotfiles/.gitconfig ~/.gitconfig
