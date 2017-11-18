@@ -1,5 +1,0 @@
-#! /bin/bash
-
-pkill hipchat
-pkill ssh
-pkill xfce4-terminal

@@ -1,5 +1,0 @@
-#! /bin/bash
-
-hipchat &
-
-xfce4-terminal --maximize --tab --command="ssh -A cog-pair -t 'tmux att -t furtive'" --hold --tab --command="ssh -L 3001:localhost:3001 cog-pair" --hold

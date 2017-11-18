@@ -4,6 +4,7 @@ ln -f -s ~/source/dotfiles/.bashrc ~/.bashrc
 ln -f -s ~/source/dotfiles/.bashrc-git ~/.bashrc-git
 ln -f -s ~/source/dotfiles/.bashrc-path ~/.bashrc-path
 ln -f -s ~/source/dotfiles/.bash_profile ~/.bash_profile
+ln -f -s ~/source/dotfiles/.ctags ~/.ctags
 ln -f -s ~/source/dotfiles/.inputrc ~/.inputrc
 ln -f -s ~/source/dotfiles/.vimrc ~/.vimrc
 ln -f -s ~/source/dotfiles/.vim ~/.vim
