@@ -31,7 +31,6 @@ function install_packages() {
     sudo apt-get -y install ruby
     sudo apt-get -y install git
     sudo apt-get -y install gist
-    sudo apt-get -y install tmux
     sudo apt-get -y install wget
     sudo apt-get -y install sshfs
     sudo apt-get -y install subversion
@@ -60,6 +59,24 @@ function install_packages() {
     xdg-mime default feh.desktop image/gif
 
     sudo apt-get -y install vnc4server
+    sudo apt-get -y install xsel
+}
+
+function install_tmux() {
+    # Build tmux from sources, because for lots of interesting things to work,
+    # like yanking to the system clipboard, we need a fairly recent version.
+    VERSION=2.5
+    sudo apt-get -y install tar libevent-dev libncurses-dev
+    wget https://github.com/tmux/tmux/releases/download/${VERSION}/tmux-${VERSION}.tar.gz
+    tar xf tmux-${VERSION}.tar.gz
+    rm -f tmux-${VERSION}.tar.gz
+    cd tmux-${VERSION}
+    ./configure
+    make
+    sudo make install
+    cd -
+    sudo mv tmux-${VERSION} /usr/local/src
+    sudo ln -S /usr/bin/tmux /usr/local/bin/tmux
 }
 
 function setup_dotfiles() {
@@ -166,6 +183,7 @@ if [[ ${1} == "all" ]]; then
     setup
     install_packages
     setup_dotfiles
+    install_tmux
     install_chrome
     install_maven
     install_leiningen
