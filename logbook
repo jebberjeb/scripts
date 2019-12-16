@@ -1,0 +1,1 @@
+DISPLAY=:1 nvim ~/efs/source/scratch/logbook/072016.otl -c "norm! G"

@@ -1,5 +1,7 @@
 #! /bin/bash
 
+SOURCE_PATH=$HOME/efs/source
+
 function setup() {
     echo "Testing sudo access"
     sudo touch /foo
@@ -81,17 +83,21 @@ function install_tmux() {
 
 function setup_dotfiles() {
     echo "Setup dotfiles and scripts"
-    mkdir ~/source
-    cd ~/source
-    git clone https://github.com/jebberjeb/scripts
-    git clone https://github.com/jebberjeb/dotfiles
+
+    # We shouldn't need to need to make the source dir or clone repos, since
+    # we're going to be using EFS for this.
+
+    #mkdir $SOURCE_PATH
+    #cd $SOURCE_PATH
+    #git clone https://github.com/jebberjeb/scripts
+    #git clone https://github.com/jebberjeb/dotfiles
 
     cd ~
     # Only remove these two dotfiles, since this script is used for
     # setting up a fresh install.
     rm .bashrc
     rm .bash_profile
-    ~/source/scripts/symlinks.sh
+    $SOURCE_PATH/scripts/symlinks.sh
 }
 
 function install_chrome() {
@@ -164,7 +170,7 @@ function install_vim() {
     ./configure --enable-rubyinterp --enable-pythoninterp --enable-multibyte --with-features=big --prefix=/usr --enable-mzschemeinterp
     make
     sudo make install
-    ~/source/scripts/vim-setup.sh
+    $SOURCE_PATH/scripts/vim-setup.sh
 }
 
 function install_neovim() {

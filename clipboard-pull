@@ -1,0 +1,5 @@
+# Remote sync the clipboard. Copy this script to Mac, run it to pull the
+# remote clipboard to the Mac clipboard.
+
+ssh -l ubuntu ec2-52-203-77-47.compute-1.amazonaws.com -E ./ssh.log "DISPLAY=:1 xsel -o --clipboard" | pbcopy
+echo

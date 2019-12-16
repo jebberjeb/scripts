@@ -1,0 +1,2 @@
+ssh -l ubuntu ec2-52-203-77-47.compute-1.amazonaws.com -E ./ssh.log "echo $(pbpaste) | DISPLAY=:1 xsel -i --clipboard"
+echo

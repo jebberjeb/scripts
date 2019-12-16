@@ -22,8 +22,8 @@
       <property name="override" type="bool" value="true"/>
       <property name="&lt;Primary&gt;&lt;Alt&gt;2" type="string" value="xfce4-appfinder --collapsed"/>
       <property name="&lt;Super&gt;space" type="string" value="xfce4-terminal"/>
-      <property name="&lt;Alt&gt;equal" type="string" value="/home/jeb/source/scripts/xfce-term-font-up.sh"/>
-      <property name="&lt;Alt&gt;minus" type="string" value="/home/jeb/source/scripts/xfce-term-font-down.sh"/>
+      <property name="&lt;Alt&gt;equal" type="string" value="/home/ubuntu/efs/source/scripts/xfce-term-font-up.sh"/>
+      <property name="&lt;Alt&gt;minus" type="string" value="/home/ubuntu/efs/source/scripts/xfce-term-font-down.sh"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">

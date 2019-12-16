@@ -10,7 +10,7 @@ fi
 if [[ ! -z "$1" ]]; then
     source_dir="$1"
 else
-    source_dir="$HOME/source"
+    source_dir="$SOURCE_PATH"
 fi
 
 scripts="$source_dir/scripts"
