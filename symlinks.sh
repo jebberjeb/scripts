@@ -14,6 +14,6 @@ ln -f -s $SOURCE_PATH/dotfiles/.gitignore ~/.gitignore
 ln -f -s $SOURCE_PATH/dotfiles/.gitconfig ~/.gitconfig
 ln -f -s $SOURCE_PATH/dotfiles/.bitchxrc ~/.bitchxrc
 ln -f -s $SOURCE_PATH/dotfiles/.xserverrc ~/.xserverrc
-mkdir ~/.config
+mkdir -p ~/.config
 ln -f -s ~/.vim ~/.config/nvim
 ln -f -s ~/.vimrc ~/.config/nvim/init.vim
