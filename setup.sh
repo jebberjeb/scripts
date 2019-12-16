@@ -1,5 +1,9 @@
 #! /bin/bash
 
+# This script is fairly coupled to AWS at this point. Presumably, the point
+# of it would be to rebuild my dev environment from a clean Ubuntu instance.
+# It assumes EFS contains shared dotfiles, scritps
+
 SOURCE_PATH=$HOME/efs/source
 
 function setup() {
@@ -91,6 +95,12 @@ function setup_dotfiles() {
     #cd $SOURCE_PATH
     #git clone https://github.com/jebberjeb/scripts
     #git clone https://github.com/jebberjeb/dotfiles
+    sudo mkdir $HOME/efs
+    sudo chmod 777 $HOME/efs
+    sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-a7580d26.efs.us-east-1.amazonaws.com:/ efs
+    sudo su
+    grep efs /etc/mtab >> /etc/fstab
+    exit
 
     cd ~
     # Only remove these two dotfiles, since this script is used for

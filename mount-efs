@@ -1,6 +1,7 @@
 #! /bin/bash
 
-# Here's how I've used this script:
+# Here's how I've used this script, see setup.sh:
+
 # sudo mkdir efs
 # sudo chmod -R 777 efs
 # run this script, to mount EFS
