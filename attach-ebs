@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# put this script where? /etc/init?
+# should the attach fail if already attached, but the mount succeed?
+
+if [ ! -d "/home/ubuntu/ebs" ]
+then
+    mkdir -p /home/ubuntu/ebs
+    sudo chmod -R 777 /home/ubuntu/ebs
+fi
+
+VOLUME_ID='vol-026de75b4075c12c4'
+INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+
+aws ec2 attach-volume  --volume-id $VOLUME_ID --instance $INSTANCE_ID --device /dev/sdb --region us-east-1
+aws ec2 wait volume-in-use --volume-id $VOLUME_ID
+
+# Not sure why waiting until it is attached isn't enough, but it fails
+# nondeterministically, I think. So sleep a bit to be sure :(
+
+sleep 2s
+
+sudo mount /dev/nvme1n1 /home/ubuntu/ebs

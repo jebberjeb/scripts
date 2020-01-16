@@ -1,0 +1,6 @@
+#! /bin/bash
+
+VOLUME_ID='vol-026de75b4075c12c4'
+
+sudo umount /home/ubuntu/ebs
+aws ec2 detach-volume --volume-id $VOLUME_ID
