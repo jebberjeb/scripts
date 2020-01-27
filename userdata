@@ -1,5 +1,7 @@
 #!/bin/bash
 
+INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+
 echo "mounting efs"
 if [ ! -d "/home/ubuntu/efs" ]
 then
@@ -13,3 +15,9 @@ echo "attaching and mounting ebs"
 
 echo "scheduling future shutdown"
 echo "/bin/bash /home/ubuntu/efs/source/scripts/terminate" | at 20:00 
+
+echo "tagging as dev"
+aws ec2 create-tags --resources $INSTANCE_ID --tags Key=type,Value=dev
+
+echo "claim elastic ip"
+aws ec2 associate-address --instance-id $INSTANCE_ID --public-ip 52.203.77.47
