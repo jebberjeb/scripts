@@ -50,6 +50,10 @@ else
 	# Google Chrome
 	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 	sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+
+    # Remove screensaver, or face massive EBS data transfer outbound charges
+    # if an RDP session is left open. I spent $10 for 100 GB yesterday!
+    sudo apt-get remove -y xscreensaver
 fi
 
 ### PART 2: MOUNT FILESYSTEMS ###

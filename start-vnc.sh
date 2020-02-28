@@ -1,3 +1,5 @@
+## DEPRECATED use xrdp ##
+
 vnc4server :1 -geometry 1280x1340 -geometry 2560x1340 -geometry 1600x1340 -geometry 1440x800
 
 # Disable scrolling (buttons 4 & 5), and unused buttons

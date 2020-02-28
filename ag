@@ -1,4 +1,4 @@
-ack-grep \
+ack \
 --ignore-dir=dist/ \
 --ignore-dir=out/ \
 --ignore-dir=.shadow-cljs/ \
