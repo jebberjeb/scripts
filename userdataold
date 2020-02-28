@@ -1,0 +1,23 @@
+#!/bin/bash
+
+INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+
+echo "mounting efs"
+if [ ! -d "/home/ubuntu/efs" ]
+then
+	mkdir -p /home/ubuntu/efs
+	sudo chmod -R 777 /home/ubuntu/efs
+fi
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-a7580d26.efs.us-east-1.amazonaws.com:/ /home/ubuntu/efs
+
+echo "attaching and mounting ebs"
+/home/ubuntu/efs/source/scripts/attach-ebs
+
+echo "scheduling future shutdown"
+echo "/bin/bash /home/ubuntu/efs/source/scripts/terminate" | at 20:00 
+
+echo "tagging as dev"
+aws ec2 create-tags --resources $INSTANCE_ID --tags Key=type,Value=dev
+
+echo "claim elastic ip"
+aws ec2 associate-address --instance-id $INSTANCE_ID --public-ip 52.203.77.47

@@ -2,6 +2,8 @@
 
 # dev6
 # \"ImageId\": \"ami-0f04c012b77aafdfe\", \
+# ubuntu 18
+# \"ImageId\": \"ami-07ebfd5b3428b6f4d\", \
 
 aws ec2 request-spot-instances \
 --availability-zone-group us-east-1f \
@@ -11,15 +13,11 @@ aws ec2 request-spot-instances \
 "{ \
 	\"SecurityGroupIds\": [\"sg-ba0fecca\"], \
 	\"EbsOptimized\": true, \
-	\"KeyName\": \"jeb-aws-keypair\", \
-	\"ImageId\": \"ami-07ebfd5b3428b6f4d\", \
-	\"IamInstanceProfile\": { \
-		\"Arn\": \"arn:aws:iam::803068370526:instance-profile/dev-ec2-instance\" \
-	}, \
+	\"ImageId\": \"ami-0f04c012b77aafdfe\", \
 	\"InstanceType\": \"t3.xlarge\", \
 	\"Placement\": { \
 		\"AvailabilityZone\": \"us-east-1f\" \
 	}, \
-	\"UserData\": \"`base64 userdata`\" \
+	\"UserData\": \"`base64 userdataold`\" \
 }"
 

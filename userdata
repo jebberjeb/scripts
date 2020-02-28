@@ -1,23 +1,107 @@
 #!/bin/bash
 
+# This script will provision a dev environment on top of
+# stock Ubuntu 18.04 Server AMI. It is idempotent, so it
+# should be safe to run it on top of snapshots based on
+# earlier installs.
+
 INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+export INSTALL_HOME=/home/ubuntu
+DEV_SETUP_DONE=$INSTALL_HOME/DEV_SETUP_DONE
+export AWS_DEFAULT_REGION=us-east-1
+export SOURCE_PATH=$INSTALL_HOME/efs/source
+
+### PART 1: INSTALL TOOLS ###
+
+# Install everything that doesn't depend on EFS/EBS.
+# Order matters here.
+
+if [ -f "$DEV_SETUP_DONE" ];
+then
+	echo "skipping tool installation"
+else
+	echo "installing tools"
+	sudo apt-get update
+	sudo apt-get install -y python
+	sudo apt-get install -y unzip
+	sudo apt-get install -y nfs-common # Need for EFS mount
+	# AWS CLI
+	curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+	unzip awscli-bundle.zip
+	sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+	sudo apt-get install -y neovim
+	sudo apt-get install -y xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils
+	sudo apt-get install -y xrdp
+	sudo apt-get install -y xsel
+	sudo apt-get install -y iotop
+	sudo apt-get install -y ack-grep
+	sudo apt-get install -y default-jdk
+	sudo apt-get install -y ant
+	sudo apt-get install -y maven
+	sudo apt-get install -y gcc
+	sudo apt-get install -y cmake
+	sudo apt-get install -y ruby
+	sudo apt install -y build-essential apt-transport-https lsb-release ca-certificates
+	sudo apt-get install -y docker-compose
+	# Leiningen
+	curl --insecure https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein | sudo tee /usr/local/bin/lein
+	sudo chmod a+x /usr/local/bin/lein
+	/usr/local/bin/lein -v # Preload self-install files
+	# Google Chrome
+	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+	sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+fi
+
+### PART 2: MOUNT FILESYSTEMS ###
+
+# Prepare to mount EFS. Only need to do this on fresh install.
+
+if [ ! -d "$INSTALL_HOME/efs" ]
+then
+	mkdir -p $INSTALL_HOME/efs
+	sudo chmod -R 777 $INSTALL_HOME/efs
+fi
+
+# Mount EFS and EBS. Order matters here as well. Do this regardless
+# of whether this is a freshly provisioned system, or a snapshot.
 
 echo "mounting efs"
-if [ ! -d "/home/ubuntu/efs" ]
-then
-	mkdir -p /home/ubuntu/efs
-	sudo chmod -R 777 /home/ubuntu/efs
-fi
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-a7580d26.efs.us-east-1.amazonaws.com:/ /home/ubuntu/efs
-
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-a7580d26.efs.us-east-1.amazonaws.com:/ $INSTALL_HOME/efs
 echo "attaching and mounting ebs"
-/home/ubuntu/efs/source/scripts/attach-ebs
+$SOURCE_PATH/scripts/attach-ebs
 
-echo "scheduling future shutdown"
-echo "/bin/bash /home/ubuntu/efs/source/scripts/terminate" | at 20:00 
+### PART 3: ONE-TIME CONFIG ###
 
-echo "tagging as dev"
+# Make some configuration changes that only have to happen
+# once, and also depend on EBS/EFS mounts being in place.
+
+if [ -f "$DEV_SETUP_DONE" ];
+then
+	echo "skipping configuration"
+else
+	# Symlink Docker's data to persistent storage
+	sudo gpasswd -a ubuntu docker
+	sudo service docker stop
+	sudo rm -rf /var/lib/docker
+	sudo ln -s /home/ubuntu/ebs/var/lib/docker/ /var/lib/docker
+	sudo service docker start
+	# Setup dotfiles symlinks
+	rm $INSTALL_HOME/.bashrc
+	/bin/su -p -c "ln -s $INSTALL_HOME/ebs/m2/ $INSTALL_HOME/.m2" - ubuntu
+	/bin/su -p -c "$SOURCE_PATH/scripts/symlinks.sh" - ubuntu
+	# Remind me that to use xrdp, user has to have a password!
+	echo "Use sudo su, then passwd ubuntu to set a password if planning to use xrdp." >> /etc/motd
+fi
+
+### PART 4: INSTANCE CONFIG ###
+
+# Configure the instance. This stuff has to happen every
+# time, regardless of whether this is a fresh install, or
+# running against an AMI built from a snapshot.
+
+# Turn it off at 8:00 PM CST, which is (as of writing this) 02:00 GMT
+echo "/bin/bash $INSTALL_HOME/efs/source/scripts/terminate" | at 02:00
 aws ec2 create-tags --resources $INSTANCE_ID --tags Key=type,Value=dev
-
-echo "claim elastic ip"
 aws ec2 associate-address --instance-id $INSTANCE_ID --public-ip 52.203.77.47
+
+touch $DEV_SETUP_DONE
