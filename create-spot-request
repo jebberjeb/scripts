@@ -1,8 +1,5 @@
 #! /bin/bash
 
-# dev6
-# \"ImageId\": \"ami-0f04c012b77aafdfe\", \
-
 aws ec2 request-spot-instances \
 --availability-zone-group us-east-1f \
 --spot-price 0.052 \
@@ -13,6 +10,16 @@ aws ec2 request-spot-instances \
 	\"EbsOptimized\": true, \
 	\"KeyName\": \"jeb-aws-keypair\", \
 	\"ImageId\": \"ami-07ebfd5b3428b6f4d\", \
+	\"BlockDeviceMappings\": [ \
+		{ \
+			\"DeviceName\": \"/dev/sda1\", \
+			\"Ebs\": { \
+				\"DeleteOnTermination\": true, \
+				\"VolumeSize\": 32, \
+				\"VolumeType\": \"gp2\" \
+			} \
+		} \
+	], \
 	\"IamInstanceProfile\": { \
 		\"Arn\": \"arn:aws:iam::803068370526:instance-profile/dev-ec2-instance\" \
 	}, \
