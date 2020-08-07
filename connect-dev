@@ -1,3 +1,5 @@
 #!/bin/bash
 
-ssh -i "~/Desktop/jeb-aws-keypair.pem" -L 8080:localhost:8080 -L 3449:localhost:3449 -L 8083:localhost:8083 -L 5903:localhost:5901 -L 8000:localhost:8000 -L 3389:localhost:3389 -L 13000:localhost:13000 -L 9630:localhost:9630 ubuntu@ec2dev -E ssherrors.txt -o StrictHostKeyChecking=no
+IP="$(ifconfig en0 | awk '/inet /{print $2}' | cut -f2 -d':')"
+
+ssh -i "~/Desktop/jeb-aws-keypair.pem" -L $IP:8080:localhost:8080 -L 5903:localhost:5901 -L 8000:localhost:8000 -L 3389:localhost:3389 -L 13000:localhost:13000 -L $IP:9630:localhost:9630 ubuntu@ec2dev -o StrictHostKeyChecking=no
