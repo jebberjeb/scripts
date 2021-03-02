@@ -1,231 +1,106 @@
 #! /bin/bash
 
-# This script is fairly coupled to AWS at this point. Presumably, the point
-# of it would be to rebuild my dev environment from a clean Ubuntu instance.
-# It assumes EFS contains shared dotfiles, scritps
+# TODO
+# Commit this
 
-SOURCE_PATH=$HOME/efs/source
+# History
+# -------
+# * 2021-03-02 - Revamped for Azure VM running Ubuntu 18.04 LTS
 
-function setup() {
-    echo "Testing sudo access"
-    sudo touch /foo
-    if [[ $? -ne 0 ]]; then
-        echo "Making user a sudoer, enter su password"
-        su -c "usermod jeb -a -G wheel"
-        echo "Log out, back in, then rerun script"
-        exit -1
-    fi
+cd ~
+mkdir source
 
-    echo "Disabling SE Linux"
-    echo "SELINUX=disabled
-    SELINUXTYPE=targeted" | sudo tee /etc/selinux/config
-
-    echo "Prime installer"
-    sudo apt-get -y update
-
-    echo "Set timezone"
-    sudo unlink /etc/localtime
-    sudo ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime
-
-    echo "Configure audio"
-    sudo usermod -a -G audio jeb
-}
+SOURCE_PATH=$HOME/source
 
 function install_packages() {
-    echo "Install apt-get packages"
-    sudo apt-get -y install python
     sudo apt-get -y install ruby
-    sudo apt-get -y install git
-    sudo apt-get -y install gist
-    sudo apt-get -y install wget
-    sudo apt-get -y install sshfs
-    sudo apt-get -y install subversion
     sudo apt-get -y install xfce4 xfce4-goodies
     sudo apt-get -y install gnome-icon-theme-full tango-icon-theme
     sudo apt-get -y install make
     sudo apt-get -y install gcc
     sudo apt-get -y install default-jdk
-    sudo apt-get -y install ack-grep
+    sudo apt-get -y install silversearcher-ag
     sudo apt-get -y install libncurses5-dev
     sudo apt-get -y install python-dev
     sudo apt-get -y install ruby-dev
-    sudo apt-get -y install espeak
-    sudo apt-get -y install libreoffice
-    sudo apt-get -y install htop
     sudo apt-get -y install iotop
     sudo apt-get -y install rlwrap
     sudo apt-get -y install tree
     sudo apt-get -y install ctags
-    sudo apt-get -y install compiz
-    sudo apt-get -y install compizconfig-settings-manager
-    sudo apt-get -y install compiz-plugins
-
-    sudo apt-get -y install feh
-    xdg-mime default feh.desktop image/png
-    xdg-mime default feh.desktop image/jpg
-    xdg-mime default feh.desktop image/gif
-
-    sudo apt-get -y install vnc4server
-    sudo apt-get -y install xsel
-}
-
-function install_tmux() {
-    # Build tmux from sources, because for lots of interesting things to work,
-    # like yanking to the system clipboard, we need a fairly recent version.
-    VERSION=2.5
-    sudo apt-get -y install tar libevent-dev libncurses-dev
-    wget https://github.com/tmux/tmux/releases/download/${VERSION}/tmux-${VERSION}.tar.gz
-    tar xf tmux-${VERSION}.tar.gz
-    rm -f tmux-${VERSION}.tar.gz
-    cd tmux-${VERSION}
-    ./configure
-    make
-    sudo make install
-    cd -
-    sudo mv tmux-${VERSION} /usr/local/src
-    sudo ln -S /usr/bin/tmux /usr/local/bin/tmux
 }
 
 function setup_dotfiles() {
-    echo "Setup dotfiles and scripts"
-
-    # We shouldn't need to need to make the source dir or clone repos, since
-    # we're going to be using EFS for this.
-
-    #mkdir $SOURCE_PATH
-    #cd $SOURCE_PATH
-    #git clone https://github.com/jebberjeb/scripts
-    #git clone https://github.com/jebberjeb/dotfiles
-    sudo mkdir $HOME/efs
-    sudo chmod 777 $HOME/efs
-    sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-a7580d26.efs.us-east-1.amazonaws.com:/ efs
-    sudo su
-    grep efs /etc/mtab >> /etc/fstab
-    exit
+    cd $SOURCE_PATH
+    git clone https://github.com/jebberjeb/scripts
+    git clone https://github.com/jebberjeb/dotfiles
 
     cd ~
-    # Only remove these two dotfiles, since this script is used for
-    # setting up a fresh install.
     rm .bashrc
     rm .bash_profile
-    $SOURCE_PATH/scripts/symlinks.sh
+    EFS_SOURCE_PATH=$SOURCE_PATH INSTALL_HOME=$HOME $SOURCE_PATH/scripts/symlinks.sh
 }
 
 function install_chrome() {
-    echo "Install Chrome"
     sudo bash -c 'wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
     sudo bash -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
     sudo apt-get -y update
     sudo apt-get -y install google-chrome-stable
 }
 
-function install_maven() {
-    echo "Install Maven"
-    wget http://mirror.olnevhost.net/pub/apache/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
-    tar xvf apache-maven-3.0.5-bin.tar.gz
-    sudo cp -rf apache-maven-3.0.5 /usr/local/
-    rm -rf apache-maven-3.0.5
-    rm apache-maven-3.0.5-bin.tar.gz
-}
-
 function install_leiningen() {
-    echo "Install Leiningen"
     curl --insecure https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein | sudo tee /usr/local/bin/lein
     sudo chmod a+x /usr/local/bin/lein
-}
-
-function install_hipchat() {
-    echo "Install HipChat"
-    sudo bash -c 'echo "deb http://downloads.hipchat.com/linux/apt stable main" > /etc/apt/sources.list.d/atlassian-hipchat.list'
-    sudo bash -c 'wget -O - https://www.hipchat.com/keys/hipchat-linux.key | apt-key add -'
-    sudo apt-get -y update
-    sudo apt-get -y install hipchat
-}
-
-function install_bitchx() {
-    echo "Install BitchX"
-    cd ~
-    svn checkout svn://svn.code.sf.net/p/bitchx/code/trunk bitchx-code
-    cd bitchx-code
-    ./configure --prefix=/usr
-    make
-    sudo make install
-}
-
-function install_dragondisk() {
-    echo "Install DragonDisk"
-    cd ~
-    wget http://download.dragondisk.com/dragondisk_1.0.5-0ubuntu_amd64.deb
-    sudo apt-get -y install libqt4-dbus libqt4-network libqt4-xml libqtcore4 libqtgui4
-    sudo dpkg -i dragondisk_1.0.5-0ubuntu_amd64.deb
-}
-
-function install_racket() {
-    echo "Install Racket"
-    cd ~
-    wget http://mirror.racket-lang.org/installers/5.3.6/racket/racket-5.3.6-src-unix.tgz
-    tar xvf racket-5.3.6-src-unix.tgz
-    cd racket-5.3.6/src
-    ./configure --prefix=/usr
-    make
-    sudo make install
-}
-
-function install_vim() {
-    echo "Install Vim"
-    cd ~
-    git clone https://github.com/b4winckler/vim.git ~/vim
-    cd ~/vim
-    #git checkout tags/v7-4-200
-    make distclean
-    ./configure --enable-rubyinterp --enable-pythoninterp --enable-multibyte --with-features=big --prefix=/usr --enable-mzschemeinterp
-    make
-    sudo make install
-    $SOURCE_PATH/scripts/vim-setup.sh
 }
 
 function install_neovim() {
     sudo apt-get install -y cmake
     sudo apt-get install -y build-essential
     sudo apt-get install -y libtool
+    sudo apt-get install -y libtool-bin
     sudo apt-get install -y pkg-config
     sudo apt-get install -y automake
+    sudo apt-get install -y gettext
     cd ~
     git clone https://github.com/neovim/neovim.git
     cd neovim
     sudo make install
+    cd ~
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    nvim +PluginInstall +qall
 }
 
-if [[ ${1} == "all" ]]; then
+function install_docker() {
+    cd ~
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    sudo usermod -aG docker vm1user
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+}
+
+function install_az() {
+    cd ~
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+}
+
     setup
     install_packages
     setup_dotfiles
-    install_tmux
     install_chrome
-    install_maven
     install_leiningen
-    install_hipchat
-    install_bitchx
-    install_dragondisk
-    #TODO - make this opt-in, rather than default (expensive)
-    #install_racket
-    install_vim
     install_neovim
-fi
+    install_docker
+    install_az
 
 # TODO
 echo "More stuff to do:
 ---
-* After running xfce, ~/source/scripts/spit-xfce-config.sh
+after running xfce, ~/source/scripts/spit-xfce-config.sh
 ---
-* Device -> Insert Guest Additions CD...
-* Right click on CD, mount, open terminal here
-* Run VBoxInstaller.run as sudo
-* Setup compiz
-    * run ccsm gui
-    * import profile settigs from scripts/compiz-settings.profile
+logout and back in, so docker works
 ---
 copy over ssh key
 ---
 clone private repo
 ---
+"
