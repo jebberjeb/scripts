@@ -24,6 +24,8 @@ function install_packages() {
     sudo apt-get -y install rlwrap
     sudo apt-get -y install tree
     sudo apt-get -y install ctags
+    sudo apt install -y postgresql-client-common
+    sudo apt install -y postgresql-client
 }
 
 function setup_dotfiles() {
