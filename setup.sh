@@ -1,8 +1,5 @@
 #! /bin/bash
 
-# TODO
-# Commit this
-
 # History
 # -------
 # * 2021-03-02 - Revamped for Azure VM running Ubuntu 18.04 LTS
