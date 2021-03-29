@@ -28,6 +28,11 @@ function install_packages() {
     sudo apt install -y postgresql-client
 }
 
+function setup_nodejs() {
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo bash -
+    sudo apt-get install -y nodejs
+}
+
 function setup_dotfiles() {
     cd $SOURCE_PATH
     git clone https://github.com/jebberjeb/scripts
@@ -42,7 +47,6 @@ function setup_dotfiles() {
 function install_chrome() {
     sudo bash -c 'wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
     sudo bash -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
-    sudo apt-get -y update
     sudo apt-get -y install google-chrome-stable
 }
 
@@ -82,14 +86,15 @@ function install_az() {
     curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 }
 
-    setup
-    install_packages
-    setup_dotfiles
-    install_chrome
-    install_leiningen
-    install_neovim
-    install_docker
-    install_az
+sudo apt-get -y update
+install_packages
+setup_nodejs
+setup_dotfiles
+install_chrome
+install_leiningen
+install_neovim
+install_docker
+install_az
 
 # TODO
 echo "More stuff to do:
